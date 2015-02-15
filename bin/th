@@ -1,0 +1,59 @@
+#!/usr/bin/env ruby
+
+require 'th'
+require 'colorize'
+
+command = ARGV[0]
+
+include TH
+
+begin
+  if command == 'create'
+    options = CreateParse.parse(ARGV)
+    Create.new(options.name, options.docker_project).run
+  elsif command == 'register'
+    options = RegisterParse.parse(ARGV)
+    Register.new(options.host).run
+  elsif command == 'key-add'
+    options = KeyAddParse.parse(ARGV)
+    KeyAdd.new(options.file, options.name).run
+  elsif command == 'branch-add'
+    options = BranchAddParse.parse(ARGV)
+    BranchAdd.new(options.branch, options.host, options.app).run
+  elsif command == 'branch-remove'
+    options = BranchRemoveParse.parse(ARGV)
+    BranchRemove.new(options.branch).run
+  elsif command == 'env-add'
+    options = EnvAddParse.parse(ARGV)
+    EnvAdd.new(options.branch, options).run
+  elsif command == 'login'
+    options = LoginParse.parse(ARGV)
+    Login.new(options.host).run
+  elsif command == 'join'
+    options = JoinParse.parse(ARGV)
+    Join.new(options.proj_id).run
+  elsif command == 'scale'
+    options = ScaleParse.parse(ARGV)
+    Scale.new(options.branch, options.app, options.instances).run
+  elsif command == 'docker'
+    options = DockerParse.parse(ARGV)
+    Docker.new(options.image, options.opts, options.cmd, options.env, options.num_ports, options.name, options.id).run
+  elsif command == 'deploy'
+    options = DeployParse.parse(ARGV)
+    Deploy.new(options.branch, options.version).run
+  elsif command == 'versions'
+    options = VersionsParse.parse(ARGV)
+    Versions.new(options.branch).run
+  elsif command == 'restart'
+    options = RestartParse.parse(ARGV)
+    Restart.new(options.branch).run
+  else
+    command_list = ['create', 'register', 'key-add', 'branch-add', 'branch-remove', 'env-add', 'login', 'join', 'scale', 'docker', 'deploy', 'versions', 'restart']
+    puts "Available Commands: \n\n%s\n\nth <command> --help for assistance" % [command_list.sort.join("\n")]
+
+  end
+rescue SystemExit => e
+  exit
+#rescue Exception => e
+#  abort(e.message.red)
+end
