@@ -12,15 +12,16 @@ module TH
 
   class BranchAdd
 
-    def initialize(branch, host, app)
+    def initialize(branch, host, app, port)
       @branch = branch
       @host = host
       @app = app
+      @port = port
     end
 
     def run
       url = File.join(user_host, 'route')
-      body = JSON.generate({ :projectName => project_name, :branch => @branch, :host => @host, :app => @app })
+      body = JSON.generate({ :projectName => project_name, :branch => @branch, :host => @host, :app => @app, :containerPort => @port })
       send_headers = { 'Content-Type' => 'application/json', 'Accept' => 'application/json', 'X-TOKEN' => user_token }
       data = http_request(url, 'POST', { }, send_headers, body)
       req = JSON.load(data)

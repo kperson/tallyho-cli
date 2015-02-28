@@ -9,6 +9,7 @@ module TH
     @@branch = '--branch <branch>'
     @@host = '--host <host>'
     @@app = '--app <app>'
+    @@port = '--port <port>'
 
     def self.parse(args)
       options = base_struct
@@ -28,6 +29,10 @@ module TH
           options.app = name
         end
 
+        opts.on(@@port, String, 'the port to map') do |port|
+          options.port = port.to_i
+        end
+
       end
 
       opt_parser.parse!(args)
@@ -39,6 +44,9 @@ module TH
 
     def self.validate(options)
       raise '%s required' % [@@branch] if options[:branch].nil?
+      raise '%s required' % [@@host] if options[:host].nil?
+      raise '%s required' % [@@port] if options[:port].nil?
+      raise '%s required' % [@@app] if options[:app].nil?
     end
 
   end

@@ -16,16 +16,18 @@ module TH
       if @options.keys.length != @options.values.length
         raise 'keys and values must be the same length'
       else
-        url = '%s/env/%s/%s/' % [user_host, project_id, @branch]
-        env_fetch = JSON.load(http_request(url, 'GET'))
-        if !env_fetch['error'].nil?
-          raise env_fetch['error']
-        end
         kv_array = @options.keys.zip(@options.values)
-        kv_hash = env_fetch['response']
-        kv_array.each{ |x| kv_hash[x[0]] = x[1] }
 
-        env_fetch = JSON.load(http_request('%s/env/' % [user_host] , 'POST', { 'project_id' => project_id, 'branch' => @branch }, { }, JSON.generate(kv_hash)))
+        url = File.join(user_host, 'env')
+        send_headers = { 'Content-Type' => 'application/json', 'Accept' => 'application/json', 'X-TOKEN' => user_token }
+        kv_array.each { |x|
+          body = JSON.generate({ :projectName => project_name, :branch => @branch, :env => { :key => x[0], :value => x[1] } })
+          req = JSON.load(http_request(url, 'POST', { }, send_headers, body))
+
+          if !req['error'].nil?
+            raise req['error']
+          end
+        }
       end
     end
 

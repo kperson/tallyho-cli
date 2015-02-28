@@ -25,7 +25,7 @@ module TH
       send_headers = { 'Content-Type' => 'application/json', 'Accept' => 'application/json', 'X-TOKEN' => user_token }
       req = JSON.load(http_request(url, 'GET', { }, send_headers))
       if !req['error'].nil?
-        raise "SERVICE: " + req['error']
+        raise req['error']
       else
         add_to_project(req['gitUrl'])
         data = user_context

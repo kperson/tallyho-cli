@@ -14,7 +14,7 @@ module TH
 
         opts.banner = 'Usage: th join [options]'
 
-        opts.on(@@project_name, String, 'the project id') do |project_name|
+        opts.on(@@proj_id, String, 'the project name') do |proj_id|
           options.proj_id = proj_id
         end
 
@@ -26,7 +26,7 @@ module TH
     end
 
     def self.validate(options)
-      raise '%s required' % [@@project_name] if options[:project_name].nil?
+      raise '%s required' % [@@proj_id] if options[:proj_id].nil?
     end
 
   end

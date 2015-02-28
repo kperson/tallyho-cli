@@ -7,7 +7,6 @@ module TH
   class CreateParse
 
     @@project_name = '--name <project_name>'
-    @@docker_project = '--docker <docker_project>'
 
     def self.parse(args)
       options = base_struct
@@ -17,10 +16,6 @@ module TH
 
         opts.on(@@project_name, String, 'name of project') do |name|
           options.name = name
-        end
-
-        opts.on(@@docker_project, String, 'name of docker push point') do |name|
-          options.docker_project = name
         end
 
 

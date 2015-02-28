@@ -13,13 +13,12 @@ module TH
 
   class Create
 
-    def initialize(name, docker_project)
+    def initialize(name)
       @name = name
-      @docker_project = docker_project
     end
 
     def run
-      body = JSON.generate({ :name => @name, :dockerProject => @docker_project })
+      body = JSON.generate({ :name => @name })
       url = File.join(user_host, 'project')
       send_headers = { 'Content-Type' => 'application/json', 'Accept' => 'application/json', 'X-TOKEN' => user_token }
       req = JSON.load(http_request(url, 'POST', { }, send_headers, body))
