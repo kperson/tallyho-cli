@@ -9,6 +9,9 @@ require_relative 'th/executors/register'
 require_relative 'th/commands/key_add_parse'
 require_relative 'th/executors/key_add'
 
+require_relative 'th/commands/route_add_parse'
+require_relative 'th/executors/route_add'
+
 require_relative 'th/commands/branch_add_parse'
 require_relative 'th/executors/branch_add'
 
@@ -38,3 +41,6 @@ require_relative 'th/executors/versions'
 
 require_relative 'th/commands/restart_parse'
 require_relative 'th/executors/restart'
+
+require_relative 'th/commands/controller_route_parse'
+require_relative 'th/executors/controller_route'

@@ -10,15 +10,21 @@ module TH
   include UserContext
   include FileIO
 
-  class BranchAdd
+  class ControllerRoute
 
-    def initialize(branch)
-      @branch = branch
+    def initialize(host, publickey, privatekey)
+      @host = host
+      @publickey = publickey
+      @privatekey = privatekey
     end
 
     def run
-      url = File.join(user_host, 'branch')
-      post_data = { :projectName => project_name, :branch => @branch }
+      url = File.join(user_host, 'controller-route')
+      post_data = { :host => @host }
+
+      if @publickey && @privatekey
+        post_data[:ssl] = { :privateKey => file_at(@privatekey), :cert => file_at(@publickey) }
+      end
 
       body = JSON.generate(post_data)
       send_headers = { 'Content-Type' => 'application/json', 'Accept' => 'application/json', 'X-TOKEN' => user_token }

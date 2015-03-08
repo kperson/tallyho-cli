@@ -15,7 +15,8 @@ module TH
 
   class Register
 
-    def initialize(host)
+    def initialize(host, invitecode)
+      @invitecode = invitecode
       @host = host
     end
 
@@ -65,7 +66,11 @@ module TH
     def register_user(username, password, email)
       url = File.join(@host, '/user')
       request_method = 'POST'
-      body = JSON.generate({ 'username' => username, 'email' => email, 'password' => password })
+      post_data = { 'username' => username, 'email' => email, 'password' => password }
+      if @invitecode
+        post_data['inviteCode'] = @invitecode
+      end
+      body = JSON.generate(post_data)
       send_headers = { 'Content-Type' => 'application/json', 'Accept' => 'application/json' }
 
       req = JSON.load(http_request(url , 'POST', { }, send_headers, body))

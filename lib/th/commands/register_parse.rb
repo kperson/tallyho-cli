@@ -7,6 +7,7 @@ module TH
   class RegisterParse
 
     @@host_name = '--host <host_url>'
+    @@invitecode = '--invitecode <invitecode>'
 
     def self.parse(args)
       options = base_struct
@@ -16,6 +17,10 @@ module TH
 
         opts.on(@@host_name, String, 'the th host') do |name|
           options.host = name
+        end
+
+        opts.on(@@invitecode, String, 'the invite code (optional for first user)') do |code|
+          options.invitecode = code
         end
 
       end

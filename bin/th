@@ -19,7 +19,10 @@ begin
     KeyAdd.new(options.file, options.name).run
   elsif command == 'branch-add'
     options = BranchAddParse.parse(ARGV)
-    BranchAdd.new(options.branch, options.host, options.app, options.port).run
+    BranchAdd.new(options.branch).run
+  elsif command == 'route-add'
+    options = RouteAddParse.parse(ARGV)
+    RouteAdd.new(options.branch, options.host, options.app, options.port, options[:publickey], options[:privatekey]).run
   elsif command == 'branch-remove'
     options = BranchRemoveParse.parse(ARGV)
     BranchRemove.new(options.branch).run
@@ -47,8 +50,11 @@ begin
   elsif command == 'restart'
     options = RestartParse.parse(ARGV)
     Restart.new(options.branch).run
+  elsif command == 'controller-route'
+    options = ControllerRouteParse.parse(ARGV)
+    ControllerRoute.new(options.host, options[:publickey], options[:privatekey]).run
   else
-    command_list = ['create', 'register', 'key-add', 'branch-add', 'branch-remove', 'env-add', 'login', 'join', 'scale', 'docker', 'deploy', 'versions', 'restart']
+    command_list = ['create', 'register', 'key-add', 'branch-add',  'route-add' 'branch-remove', 'env-add', 'login', 'join', 'scale', 'docker', 'deploy', 'versions', 'restart', 'controller-route']
     puts "Available Commands: \n\n%s\n\nth <command> --help for assistance" % [command_list.sort.join("\n")]
 
   end
