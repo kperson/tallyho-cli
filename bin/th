@@ -13,7 +13,7 @@ begin
     Create.new(options.name).run
   elsif command == 'register'
     options = RegisterParse.parse(ARGV)
-    Register.new(options.host).run
+    Register.new(options.host, options[:invitecode]).run
   elsif command == 'key-add'
     options = KeyAddParse.parse(ARGV)
     KeyAdd.new(options.file, options.name).run
