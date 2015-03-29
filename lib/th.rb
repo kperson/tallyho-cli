@@ -44,3 +44,6 @@ require_relative 'th/executors/restart'
 
 require_relative 'th/commands/controller_route_parse'
 require_relative 'th/executors/controller_route'
+
+require_relative 'th/commands/env_list_parse'
+require_relative 'th/executors/env_list'

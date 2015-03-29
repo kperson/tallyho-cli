@@ -50,11 +50,14 @@ begin
   elsif command == 'restart'
     options = RestartParse.parse(ARGV)
     Restart.new(options.branch).run
+  elsif command == 'env'
+    options = EnvListParse.parse(ARGV)
+    EnvList.new(options.branch).run
   elsif command == 'controller-route'
     options = ControllerRouteParse.parse(ARGV)
     ControllerRoute.new(options.host, options[:publickey], options[:privatekey]).run
   else
-    command_list = ['create', 'register', 'key-add', 'branch-add',  'route-add', 'branch-remove', 'env-add', 'login', 'join', 'scale', 'docker', 'deploy', 'versions', 'restart', 'controller-route']
+    command_list = ['create', 'register', 'key-add', 'branch-add',  'route-add', 'branch-remove', 'env-add', 'env', 'login', 'join', 'scale', 'docker', 'deploy', 'versions', 'restart', 'controller-route']
     puts "Available Commands: \n\n%s\n\nth <command> --help for assistance" % [command_list.sort.join("\n")]
 
   end
